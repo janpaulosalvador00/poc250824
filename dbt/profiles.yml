@@ -1,0 +1,21 @@
+demo_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: dev-postgres
+      user: alejlatorre
+      password: password
+      port: 5432
+      dbname: dbt_dev
+      schema: dev
+      threads: 4
+    local:
+      type: postgres
+      host: localhost
+      user: alejlatorre
+      password: password
+      port: 5433
+      dbname: dbt_dev
+      schema: dev
+      threads: 4

@@ -1,16 +1,14 @@
-Overview
-========
+# Overview
 
 Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
 
-Project Contents
-================
+# Project Contents
 
 Your Astro project contains the following files and folders:
 
 - dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes two example DAGs:
-    - `example_dag_basic`: This DAG shows a simple ETL data pipeline example with three TaskFlow API tasks that run daily.
-    - `example_dag_advanced`: This advanced DAG showcases a variety of Airflow features like branching, Jinja templates, task groups and several Airflow operators.
+  - `example_dag_basic`: This DAG shows a simple ETL data pipeline example with three TaskFlow API tasks that run daily.
+  - `example_dag_advanced`: This advanced DAG showcases a variety of Airflow features like branching, Jinja templates, task groups and several Airflow operators.
 - Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
 - include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
 - packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
@@ -18,8 +16,7 @@ Your Astro project contains the following files and folders:
 - plugins: Add custom or community plugins for your project to this file. It is empty by default.
 - airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
 
-Deploy Your Project Locally
-===========================
+# Deploy Your Project Locally
 
 1. Start Airflow on your local machine by running 'astro dev start'.
 
@@ -38,12 +35,35 @@ Note: Running 'astro dev start' will start your project with the Airflow Webserv
 
 You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
 
-Deploy Your Project to Astronomer
-=================================
+# Deploy Your Project to Astronomer
 
 If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://docs.astronomer.io/cloud/deploy-code/
 
-Contact
-=======
+# Contact
 
 The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+
+# Setup
+
+Check network attached to Airflow services (Astro) using:
+
+```bash
+docker network ls
+docker network inspect <network_name>
+```
+
+Then, to deploy postgres locally using Docker:
+
+```bash
+docker pull postgres
+docker run --name <container_name> --network <astro-airflow_network_name> -e POSTGRES_PASSWORD=password -e POSTGRES_USER=username -p 5433:5432 -d postgres
+# Port must be 5433:5432 because 5432:5432 is already being used by Astro Airflow
+```
+
+Then, the conection that you will create in Airflow UI should have the following structure:
+
+- host: <container_name>
+- database: <db_name>
+- login: <POSTGRES_USER>
+- password: <POSTGRESS_PASSWORD>
+- port: <5432>
