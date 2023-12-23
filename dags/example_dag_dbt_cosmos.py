@@ -11,7 +11,7 @@ from cosmos.constants import TestBehavior
 from pendulum import datetime
 
 from include.constants import DBT_PROJECT_PATH, venv_execution_config
-from include.profiles import postgres_config
+from include.profiles import dbt_dev_config
 
 POSTGRES_CONN_ID = "dev-postgres"
 DB_NAME = "dbt_dev"
@@ -27,7 +27,7 @@ with DAG(
     starters = DbtTaskGroup(
         group_id="starters",
         project_config=ProjectConfig(DBT_PROJECT_PATH),
-        profile_config=postgres_config,
+        profile_config=dbt_dev_config,
         execution_config=venv_execution_config,
         render_config=RenderConfig(
             select=["my_first_dbt_model"], test_behavior=TestBehavior.NONE

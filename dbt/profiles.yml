@@ -1,7 +1,7 @@
 demo_dbt:
-  target: dev
+  target: local
   outputs:
-    dev:
+    cloud:
       type: postgres
       host: "{{ env_var('DBT_ASTRO_POSTGRES_HOST') }}"
       user: "{{ env_var('DBT_ASTRO_POSTGRES_USER') }}"
