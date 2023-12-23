@@ -1,10 +1,11 @@
 import json
-from pendulum import datetime
+import os
 
 from airflow.decorators import (
     dag,
     task,
-)  # DAG and task decorators for interfacing with the TaskFlow API
+)
+from pendulum import datetime
 
 
 # When using the DAG decorator, The "dag_id" value defaults to the name of the function
@@ -43,7 +44,7 @@ def example_dag_basic():
         hardcoded JSON string.
         """
         data_string = '{"1001": 301.27, "1002": 433.21, "1003": 502.22}'
-
+        print(os.getenv("DBT_ASTRO_POSTGRES_HOST"))
         order_data_dict = json.loads(data_string)
         return order_data_dict
 

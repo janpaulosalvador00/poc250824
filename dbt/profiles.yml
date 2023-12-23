@@ -3,12 +3,12 @@ demo_dbt:
   outputs:
     dev:
       type: postgres
-      host: dev-postgres
-      user: alejlatorre
-      password: password
-      port: 5432
-      dbname: dbt_dev
-      schema: dev
+      host: "{{ env_var('DBT_ASTRO_POSTGRES_HOST') }}"
+      user: "{{ env_var('DBT_ASTRO_POSTGRES_USER') }}"
+      password: "{{ env_var('DBT_ASTRO_POSTGRES_PASSWORD') }}"
+      port: "{{ env_var('DBT_ASTRO_POSTGRES_PORT') | int }}"
+      dbname: "{{ env_var('DBT_ASTRO_POSTGRES_DBNAME') }}"
+      schema: "{{ env_var('DBT_ASTRO_POSTGRES_SCHEMA') }}"
       threads: 4
     local:
       type: postgres
@@ -17,5 +17,5 @@ demo_dbt:
       password: password
       port: 5433
       dbname: dbt_dev
-      schema: dev
+      schema: dbt
       threads: 4
