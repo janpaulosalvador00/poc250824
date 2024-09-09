@@ -1,0 +1,6 @@
+[submodule "airbyte"]
+	path = airbyte
+	url = https://github.com/airbytehq/airbyte.git
+[submodule "astro-airflow-dbt"]
+	path = astro-airflow-dbt
+	url = https://github.com/alejlatorre/astro-airflow-dbt.git
