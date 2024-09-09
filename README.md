@@ -67,3 +67,4 @@ Then, the conection that you will create in Airflow UI should have the following
 - login: <POSTGRES_USER>
 - password: <POSTGRESS_PASSWORD>
 - port: <5432>
+# poc250824
