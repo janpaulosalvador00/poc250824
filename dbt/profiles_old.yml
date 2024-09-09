@@ -1,0 +1,21 @@
+demo_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST') }}"
+      user: "{{ env_var('SINGLESTORE_USER') }}"
+      password: "{{ env_var('SINGLESTORE_PASSWORD') }}"
+      port: "{{ env_var('SINGLESTORE_PORT') | int }}"
+      database: "{{ env_var('SINGLESTORE_DB') }}"
+      schema: "{{ env_var('SINGLESTORE_SCHEMA') }}"
+      threads: "{{ env_var('SINGLESTORE_THREADS') | int }}"
+    local:
+      type: postgres
+      host: localhost
+      user: alejlatorre
+      password: password
+      port: 5433
+      dbname: dbt_dev
+      schema: dbt
+      threads: 4

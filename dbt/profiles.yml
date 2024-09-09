@@ -1,21 +1,16 @@
 demo_dbt:
-  target: dev
+  #target: dev
   outputs:
     dev:
-      type: singlestore
-      host: "{{ env_var('SINGLESTORE_HOST') }}"
-      user: "{{ env_var('SINGLESTORE_USER') }}"
-      password: "{{ env_var('SINGLESTORE_PASSWORD') }}"
-      port: "{{ env_var('SINGLESTORE_PORT') | int }}"
-      database: "{{ env_var('SINGLESTORE_DB') }}"
-      schema: "{{ env_var('SINGLESTORE_SCHEMA') }}"
-      threads: "{{ env_var('SINGLESTORE_THREADS') | int }}"
-    local:
-      type: postgres
-      host: localhost
-      user: alejlatorre
-      password: password
-      port: 5433
-      dbname: dbt_dev
-      schema: dbt
-      threads: 4
+      account: pga76060.east-us-2.azure.snowflakecomputing.com
+      database: SNOW_DBT_POSTGRE
+      password: '@OQRbh;O/89OI$L#'
+      role: ACCOUNTADMIN
+      schema: TRUSTED
+      threads: 1
+      host: pga76060.east-us-2.azure.snowflakecomputing.com
+      type: snowflake
+      user: POCDDDBTAPP
+      warehouse: COMPUTE_WH
+
+  target: dev

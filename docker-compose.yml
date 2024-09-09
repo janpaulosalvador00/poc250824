@@ -8,8 +8,16 @@ services:
     volumes:
       - ./dbt:/usr/local/airflow/dbt:rw
     environment:
-      - ASTRO_VENV=test
+      - ASTRO_VENV=test 
 
   triggerer:
     volumes:
       - ./dbt:/usr/local/airflow/dbt:rw
+
+  airflow:
+      ports:
+        - "8080:8080"  # Porta do Airflow
+        - "8081:8081"  # Porta do DBT Docs
+      volumes:
+        - ./dags:/opt/airflow/dags
+        - ./dbt:/path/to/dbt/project

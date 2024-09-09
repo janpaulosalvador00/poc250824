@@ -25,6 +25,9 @@ RUN pip install -r /app/requirements.txt
 ENV DBT_PROJECT_DIR=/app
 ENV DBT_PROFILES_DIR=/app/.dbt
 
+# Comando padrão
+CMD ["dbt", "debug"]
+
 # Atualize e instale o Git
 USER root
 RUN apt-get update && \
@@ -34,14 +37,3 @@ RUN apt-get update && \
 # Clone o repositório GitHub
 RUN git clone https://github.com/janpaulosalvador00/poc250824.git /app/poc250824
 
-# Geração da documentação DBT
-RUN dbt docs generate --project-dir /app/dbt
-
-# Mova os arquivos gerados para o diretório de docs
-RUN mkdir -p /app/dbt_docs_dir && \
-    cp /app/dbt/target/manifest.json /app/dbt_docs_dir/manifest.json && \
-    cp /app/dbt/target/catalog.json /app/dbt_docs_dir/catalog.json && \
-    cp /app/dbt/target/index.html /app/dbt_docs_dir/index.html
-
-# Comando padrão para o container
-CMD ["dbt", "debug"]

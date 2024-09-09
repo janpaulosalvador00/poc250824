@@ -1,0 +1,57 @@
+FROM quay.io/astronomer/astro-runtime:11.9.0
+
+# Copie e instale os provedores
+COPY providers.txt .
+RUN pip install --no-cache-dir --root-user-action=ignore -r providers.txt
+
+# Defina o diretório de trabalho
+WORKDIR "/usr/local/airflow"
+WORKDIR /app
+
+# Crie o diretório para a configuração do dbt dentro de /app
+#RUN mkdir -p /app/.dbt
+RUN mkdir -p /app/.dbt /app/dbt/logs && \
+    chmod -R 777 /app/dbt
+
+# Crie o diretório para logs e defina as permissões
+RUN mkdir -p /app/logs && \
+    chmod -R 777 /app/logs
+
+# Copie o projeto dbt para o diretório de trabalho
+COPY dbt /app/dbt    
+
+# Copie e instale as dependências do dbt
+COPY dbt/requirements.txt /app/dbt-requirements.txt
+RUN python -m virtualenv /app/dbt_venv && \
+    /app/dbt_venv/bin/pip install --no-cache-dir -r /app/dbt-requirements.txt
+
+# Copie o arquivo profiles.yml para o local apropriado
+COPY dbt/profiles.yml /app/.dbt/profiles.yml
+COPY dbt/dbt_project.yml /app/dbt_project.yml
+
+#COPY dbt/profiles.yml /home/astro/.dbt/profiles.yml
+#COPY dbt/profiles.yml /tmp/airflowtmpt82eqx3v/dbt_project.yml
+
+# Defina as variáveis de ambiente para DBT
+ENV DBT_PROJECT_DIR=/app
+ENV DBT_PROFILES_DIR=/app/.dbt
+
+# Copie o arquivo requirements.txt e instale as dependências restantes
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+
+# Copie o código-fonte para o container
+COPY . /app
+
+# Defina o comando padrão
+#CMD ["dbt-rpc", "serve"]
+CMD ["dbt", "debug"]
+
+
+# Atualize o repositório e instale o Git
+USER root
+RUN apt-get update && \
+    apt-get install -y git && \
+    apt-get clean
+    RUN dbt deps
+    #RUN dbt run

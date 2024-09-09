@@ -1,3 +1,4 @@
 dbt-core==1.6.9
 dbt-postgres==1.6.9
 dbt-singlestore==1.6.0
+
